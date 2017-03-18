@@ -49,6 +49,8 @@ class Date:
             return False
             
     def tomorrow(self):
+        """finds the date that occured after the input date
+        """
         febDays = 28
         daysInMonth = [0, 31, febDays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         self.day += 1
@@ -76,7 +78,8 @@ class Date:
             self.year += 1
             
     def yesterday(self):
-        
+        """finds the date that occurred before the input date
+        """
         febDays = 28
         self.day -= 1
         daysInMonth = [31, 31, febDays, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
