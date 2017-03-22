@@ -26,12 +26,20 @@ class Board:
         """ Puts a checker of the selected type in the selected column and returns the board state
         """
         height = self.height
+        width = self.width
         board = self.boardstate
         
         i = height - 1
         
-        while board[i][int(column)] != ' ':
+        if column > width or column < 0:
+            return False
+            
+        while board[i][int(column)] != ' ' and i >= 0:
             i -= 1
+            
+        if i < 0:
+            return False
+        
         
         board[i][column] = checkerType
         
@@ -44,36 +52,48 @@ class Board:
                 board[i][j] = ' '
                 
     def setMoves(self, movesString):
-        height = self.height
-        width = self.width
-        board = Board(height, width)
         checkerType = 'X'
 
         if type(movesString) != str:
             print 'You should input your moves as a string! (e.g. \'12314\')'
             return 
-            
+
         movesStringLength = len(movesString)
         for i in range(movesStringLength):
-            board.addMove(int(movesString[i]), checkerType)
+            self.addMove(int(movesString[i]), checkerType)
             if checkerType == 'X':
                 checkerType = 'O'
             elif checkerType == 'O':
                 checkerType = 'X'
-        print 'moves have been set'
-        return board
         
     def fill(self):
         height = self.height
         width = self.width
-        board = Board(height, width)
         movesString = ""
         
         for i in range(height):
             for j in range(width):
                 movesString += str(j)
         
-        board.setMoves(movesString)
-
-        return board                      #movesString works when manually input into
-                                          #setMoves, but not when used by fill()
+        self.setMoves(movesString)
+        
+    def checkWin(self):                                  #Still working on how i want to check for wins
+        width = self.width
+        height = self.height
+        board = self.boardstate
+        xCoords = []
+        oCoords = []
+        xHeights = []
+        oHeights = []
+        
+        for i in range(height):
+            for j in range(width):
+                if board[i][j] == 'X':
+                    xCoords += '(' + str(i) + ',' + str(j) + ')'
+                elif board[i][j] == 'O':
+                    oCoords += '(' + str(i) + ',' + str(j) + ')'
+                    
+        for i in range(len(xCoords)):
+            xHeights += xCoords[i][2]
+            
+        return xHeights
