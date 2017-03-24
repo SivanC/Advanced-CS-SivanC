@@ -27,3 +27,8 @@ def binarySearch(alist, num):
             found = True
             print 'list too small'
     return found
+    
+def createList(listLength):
+    createdList = []
+    for i in range(listLength):
+        createdList += i

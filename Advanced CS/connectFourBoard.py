@@ -3,7 +3,7 @@ class Board:
     def __init__(self, height, width):
         self.height = height
         self.width = width
-        self.boardstate = [[' ' for w in range(width)] for h in range(height)]
+        self.boardstate = [['_' for w in range(width)] for h in range(height)]
     
     def __repr__(self):
         height = self.height
@@ -17,9 +17,9 @@ class Board:
             board += '\n'
         board += '-' * (2*width + 1)
         board += "\n"
-        board += " "
+        board += "_"
         for i in range(0, width):
-            board += str(i % 10) + " "
+            board += str(i % 10) + "_"
         return board
         
     def addMove(self, column, checkerType):
@@ -34,7 +34,7 @@ class Board:
         if column > width or column < 0:
             return False
             
-        while board[i][int(column)] != ' ' and i >= 0:
+        while board[i][int(column)] != '_' and i >= 0:
             i -= 1
             
         if i < 0:
@@ -49,7 +49,7 @@ class Board:
         board = self.boardstate
         for i in range(0, height):
             for j in range(0, width):
-                board[i][j] = ' '
+                board[i][j] = '_'
                 
     def setMoves(self, movesString):
         checkerType = 'X'
@@ -78,6 +78,7 @@ class Board:
         self.setMoves(movesString)
         
     def checkWin(self):                                  #Still working on how i want to check for wins
+                                                         #My idea was 
         width = self.width
         height = self.height
         board = self.boardstate
@@ -85,6 +86,8 @@ class Board:
         oCoords = []
         xHeights = []
         oHeights = []
+        xColumns = []
+        oColumns = []
         
         for i in range(height):
             for j in range(width):
@@ -92,8 +95,13 @@ class Board:
                     xCoords += '(' + str(i) + ',' + str(j) + ')'
                 elif board[i][j] == 'O':
                     oCoords += '(' + str(i) + ',' + str(j) + ')'
-                    
+
         for i in range(len(xCoords)):
-            xHeights += xCoords[i][2]
+            xHeights += int(xCoords[i][3])
+            xColumns += int(xCoords[i][1])
             
-        return xHeights
+        for i in range(len(oCoords)):
+            oHeights += int(oCoords[i][3])
+            oColumns += int(oCoords[i][1])
+            
+        return xHeights, xColumns, oHeights, oColumns
