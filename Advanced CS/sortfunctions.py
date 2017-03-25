@@ -71,12 +71,15 @@ def quickSort(aList):
         
         while aList[bigNum] < pivot:      #checks for a number greater than or equal to the pivot starting from the first index of the array
             print 'bigNum is ' + str(bigNum) + ' and the value is ' + str(aList[bigNum])
-            bigNum += 1
+            if bigNum < len(aList):
+                bigNum += 1
             
         while aList[smallNum] >= pivot:   #checks for a numebr less than the pivot starting from the last index of the array
             print 'smallNum is ' + str(smallNum) + ' and the value is ' + str(aList[smallNum])
             smallNum -= 1
-            
+            if smallNum < 0:
+                smallNum = 0
+                
         aList[bigNum] = swapVal(aList[bigNum], aList[smallNum])[0]       #swaps the values of aList[bigNum] and aList[smallNum]
         aList[smallNum] = swapVal(aList[bigNum], aList[smallNum])[1]
         
