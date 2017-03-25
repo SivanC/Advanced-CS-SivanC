@@ -1,3 +1,19 @@
+import pdb
+import random
+
+def swapVal(value1, value2):
+    tempVal = 0
+    tempVal = value1
+    value1 = value2
+    value2 = tempVal
+    return value1, value2
+    
+def randListGen(listLength, listRange):
+    randList = []
+    for i in range(listLength):
+        randList.append((random.randint(0, listRange)))
+    return randList
+
 def splitList(aList):
     """Separates all items in a list
     """
@@ -41,19 +57,27 @@ def mergeSort(alist):       #trinket version
             alist[k]=righthalf[j]
             j=j+1
             k=k+1
-            
+   
 def quickSort(aList):
-    
+    print aList
     if len(aList) <= 1:
         return aList
-    
+        
     pivot = aList[0]
+    smallNum = len(aList) - 1
+    bigNum = 0
     
-    for i in range(len(aList)):
-        if aList[i] < pivot:
-            print aList[i]
-            aList.insert(0, aList.pop(aList[i]))
-
-        else:
-            pass
+    while bigNum < smallNum:
+        
+        while aList[bigNum] < pivot:      #checks for a number greater than or equal to the pivot starting from the first index of the array
+            print 'bigNum is ' + str(bigNum) + ' and the value is ' + str(aList[bigNum])
+            bigNum += 1
+            
+        while aList[smallNum] >= pivot:   #checks for a numebr less than the pivot starting from the last index of the array
+            print 'smallNum is ' + str(smallNum) + ' and the value is ' + str(aList[smallNum])
+            smallNum -= 1
+            
+        aList[bigNum] = swapVal(aList[bigNum], aList[smallNum])[0]       #swaps the values of aList[bigNum] and aList[smallNum]
+        aList[smallNum] = swapVal(aList[bigNum], aList[smallNum])[1]
+        
     return aList
