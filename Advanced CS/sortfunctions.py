@@ -57,9 +57,9 @@ def mergeSort(alist):       #trinket version
             alist[k]=righthalf[j]
             j=j+1
             k=k+1
-   
+    print alist
+
 def quickSort(aList):
-    print aList
     if len(aList) <= 1:
         return aList
         
@@ -82,5 +82,15 @@ def quickSort(aList):
                 
         aList[bigNum] = swapVal(aList[bigNum], aList[smallNum])[0]       #swaps the values of aList[bigNum] and aList[smallNum]
         aList[smallNum] = swapVal(aList[bigNum], aList[smallNum])[1]
-        
+
+        print aList[bigNum]
+        print aList[smallNum]
+
     return aList
+
+samiList = randListGen(10, 8)
+print "My List: " + str(samiList)
+
+mergeSort(samiList)
+
+print "Quick Sorted: " + str(quickSort(samiList))
