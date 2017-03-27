@@ -1,1 +1,14 @@
-    test
+Week 2:
+1. sortFunctions.quickSort()
+My List: [1, 4, 3, 7, 1, 4, 4, 4, 0, 8]
+bigNum is 6 and the value is 0
+bigNum is 7 and the value is 0
+bigNum is 8 and the value is 0
+Quick Sorted: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+1. returns a list of 0 instead of sorted list
+2. if list is sorted, infinite loop of sorting
+
+Try using python profile to compare performance
+https://cuccuinis_9224.trinket.io/spring-2-01-7-advanced-computer-science#/sorting/python-profilers
+
