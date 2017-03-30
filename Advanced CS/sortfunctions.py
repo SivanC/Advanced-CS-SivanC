@@ -65,13 +65,13 @@ def mergeSort(alist):       #trinket version
             k=k+1
     print alist
 
-def isSorted(aList):
+def checkSorted(aList):
     """Checks if a list is sorted by comparing each entry to the next
     """
     index = 0
-    while aList[index] < aList[index + 1]:
+    while aList[index] != aList[-1] and aList[index] < aList[index + 1]:
         index += 1
-    if index == len(aList):
+    if index == len(aList) - 1: #If every number is lower than or equal to the next number the list is sorted
         return True
     else:
         return False
@@ -85,7 +85,6 @@ def quickSort(aList): #Best case is 1 swap needed to sort the list. Worst case i
     pivotIndex = 0 #setting the default pivot of aList[0]
     smallNum = len(aList) - 1
     bigNum = 1
-    isSorted = False
     
     while bigNum + 1 < smallNum: #If this condition is fulfilled then there are only numbers smaller than the pivot in the first half, and only numbers larger in the second, enabling recursive sorting
         pivot = aList[pivotIndex] #Defined inside the while loop in order to be updated if all numbers are larger than the pivot
@@ -130,7 +129,12 @@ def quickSort(aList): #Best case is 1 swap needed to sort the list. Worst case i
     aList[0] = swappedVals[0]
     aList[counter] = swappedVals[1]
     
-
-    return aList
+    if checkSorted(aList) == True:
+        #Splitting the semi-sorted list into two halves
+        lowHalf = aList[:counter]
+        highHalf = aList[counter:]
+        quickSort(lowHalf)
+        quickSort(highHalf)
+        return aList
 
 #cProfile.run('quickSort(randListGen(10,10))','C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt')
