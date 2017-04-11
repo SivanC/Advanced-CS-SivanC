@@ -1,6 +1,7 @@
 import pdb          #python debugger, allows to go through a function step by step using pdb.Trace()
 import random       #used in randListGen()
 import cProfile
+import pstats
 
 def swapVal(value1, value2):
     """ Swaps the values held in two variables and returns a list with the two swapped values
@@ -147,5 +148,10 @@ def quickSort(aList): #Best case is 1 swap needed to sort the list. Worst case i
 def sortTest(function):
     for i in range(1000):
         function(randListGen(10,10))
-    
-#cProfile.run('quickSort(randListGen(10,10))','C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt')
+#pdb.set_trace()
+sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
+statsInstance = cProfile.run('quickSort(randListGen(10,10))')
+stream = open(sortFile, 'w')
+#stats = pstats.Stats(statsInstance, stream = stream)
+stats = pstats.Stats('C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions.py', stream = stream)
+stats.print_stats()
