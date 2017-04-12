@@ -145,13 +145,55 @@ def quickSort(aList): #Best case is 1 swap needed to sort the list. Worst case i
     else:
         return aList
 
+def insertSort(aList):
+    """Compares each item in a list to the next and swaps if one value is lower, first from left to right and then from right to left. Returns a sorted list
+    """
+    print aList
+    if len(aList) <= 1:    #checking for unsortable and too short lists
+        return aList
+    elif isSorted(aList):
+        return aList
+    
+    if aList[0] > aList[1]:
+        swapListA = swapVal(aList[0], aList[1])
+        aList[0] = swapListA[0]
+        aList[1] = swapListA[1]
+    for i in range(1, len(aList) - 1): #Looping through the list starting at the second/pivot index
+        if aList[i] > aList[i + 1]:
+            swapListB = swapVal(aList[i], aList[i + 1])
+            aList[i] = swapListB[0]
+            aList[i + 1] = swapListB[1]
+    for j in range(len(aList) - 2, 0, -1): #Looping through the list starting at the second to last entry of the list going backwards
+        if aList[j] < aList[j - 1]:
+            swapListC = swapVal(aList[j], aList[j - 1])
+            aList[j] = swapListC[0]
+            aList[j - 1] = swapListC[1]
+            
+    if isSorted(aList):
+        return aList
+    else:
+        sortedList = insertSort(aList)
+    return sortedList
+    
+def shellSort(aList, gap, numLists): #ignore this for now!
+    """Splits a list into numLists using increments of gap to select items from aList, and then uses insertion sort to sort the individual lists before combination. Returns the sorted list.
+    """
+    gapCounter = 0
+    for i in range(numLists):
+        listName = 'list'
+        while gapCounter <= len(aList) - 1:
+            listName + str(i) = aList[gapCounter]
+            gapCounter += gap
+        return 
+    
 def sortTest(function):
     for i in range(1000):
         function(randListGen(10,10))
+        
 #pdb.set_trace()
-sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
-statsInstance = cProfile.run('quickSort(randListGen(10,10))')
-stream = open(sortFile, 'w')
+#sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
+#statsInstance = cProfile.run('insertSort([0, 10, 9, 8, 9, 5, 3, 0, 8, 4])')
+#stream = open(sortFile, 'w')
 #stats = pstats.Stats(statsInstance, stream = stream)
-stats = pstats.Stats('C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions.py', stream = stream)
-stats.print_stats()
+#stats = pstats.Stats('C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions.py', stream = stream)
+#stats.print_stats()
