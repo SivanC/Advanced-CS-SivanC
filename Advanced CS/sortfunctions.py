@@ -175,16 +175,30 @@ def insertSort(aList):
         sortedList = insertSort(aList)
     return sortedList
     
-def shellSort(aList, gap, numLists): #ignore this for now!
+def shellSort(aList, gap):
     """Splits a list into numLists using increments of gap to select items from aList, and then uses insertion sort to sort the individual lists before combination. Returns the sorted list.
     """
-    gapCounter = 0
-    for i in range(numLists):
-        listName = 'list'
+    print aList
+    if len(aList) <= 1:    #checking for unsortable and too short lists
+        return aList
+    elif isSorted(aList):
+        return aList
+    listDict = {}
+    loopCount = len(aList)//gap
+    sortedList = []
+    for i in range(loopCount): #setting up our arrays
+        listDict['list' + str(i)] = []
+    for j in range(loopCount): #Adding numbers to our sublists
+        gapCounter = 0 + j
         while gapCounter <= len(aList) - 1:
-            listName + str(i) = aList[gapCounter]
+            print gapCounter
+            listDict['list' + str(j)] += [aList[gapCounter]]
             gapCounter += gap
-        return 
+    for k in listDict: #sorting all lists within the dictionary
+        listDict[k] = insertSort(listDict[k])
+    #for m in len(listDict):
+        #sortedList.append(
+    return listDict
     
 def sortTest(function):
     for i in range(1000):
