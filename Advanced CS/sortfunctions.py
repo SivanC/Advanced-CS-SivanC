@@ -217,6 +217,28 @@ def shellSort(aList, gap):
     print listDict
     sortedList = insertSort(sortedList)
     return sortedList
+
+def selectionSort(aList):
+    """Repeatedly finds the smallest value in aList and puts it behind the previous smallest value. Returns a list.
+    """
+    print aList
+    swapIndex = 3
+    smallNumIndex = 0
+    pdb.set_trace()
+    while not isSorted(aList):
+        smallNum = aList[swapIndex]
+        for i in range(swapIndex, len(aList)):
+            if aList[i] < smallNum:
+                smallNum = aList[i]
+                smallNumIndex = i
+        
+        swapListA = swapVal(smallNum, aList[swapIndex])
+        aList[smallNumIndex] = swapListA[0]
+        aList[swapIndex] = swapListA[1]
+        if swapIndex < len(aList) - 1:
+            swapIndex += 1
+        
+    return aList
     
 def sortTest(function):
     for i in range(1000):
