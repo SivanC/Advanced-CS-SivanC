@@ -181,34 +181,40 @@ def shellSort(aList, gap):
     print aList
     if len(aList) <= 1:    #checking for unsortable and too short lists
         return aList
-    elif isSorted(aList):
-        return aList
+    #elif isSorted(aList):
+     #   return aList
     listDict = {}
-    loopCount = len(aList)//gap
+    intQuotient = len(aList)//gap
     remainder = len(aList) % gap
     sortedList = []
     longListList = []
-    for i in range(loopCount): #setting up our arrays
+    
+    for i in range(gap): #setting up our arrays
         listDict['list' + str(i)] = []
+
     for j in range(gap): #Adding numbers to our sublists
-        gapCounter = 0 + j
+        gapCounter = j
         while gapCounter <= len(aList):
-            print gapCounter
-            listDict['list' + str(j)] += [aList[gapCounter - 1]]
+            if gapCounter != 0:
+                listDict['list' + str(j)] += [aList[gapCounter - 1]]
             gapCounter += gap
+            
     for k in listDict: #sorting all lists within the dictionary
         listDict[k] = insertSort(listDict[k])
-    for o in range(remainder):
-        longListList.append(['list' + str(2 - o)])
+        
+    for l in range(1, remainder + 1): #Appending lists to our list of large lists
+        longListList.append('list' + str(l))
+        
+    for m in range(intQuotient): #At index m in all lists listn add to sortedList
+        for n in range(gap):
+            sortedList.append(listDict['list' + str(n)][m])
+    print 'sorted list:'
+    print sortedList
+    for o in longListList: #Add the last value of all large lists to the end of the sortedList
+        sortedList.append(listDict[o][-1])
+        print remainder
     print longListList
     print listDict
-    for m in range(loopCount): #At index m in all lists listn add to sortedList
-        for n in range(loopCount):
-            sortedList.append(listDict['list' + str(n)][m])
-            if ['list' + str(n)] in longListList:
-                print 'made it'
-                sortedList.append(listDict['list' + str(n)][-1])
-                print 'thing is ' + str(listDict['list' + str(n)][-1])
     sortedList = insertSort(sortedList)
     return sortedList
     
