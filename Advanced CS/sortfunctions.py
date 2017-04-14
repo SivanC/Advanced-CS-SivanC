@@ -252,6 +252,25 @@ def selectionSort(aList):
 
     return aList
     
+def bubbleSort(aList):
+    """Sorts a list by checking the order of two elements and swapping it if they are wrong from left to right, starting over until the list is sorted. Returns a list.
+    """
+    print aList
+    if len(aList) <= 1:    #checking for unsortable and too short lists
+        return aList
+    elif isSorted(aList):
+        return aList
+    
+    while not isSorted(aList):  #Repeat until sorted
+        for i in range(len(aList) - 1):
+            if aList[i] > aList[i + 1]:  #If the larger value is earlier in the list than the shorter one swap them
+                swapList = swapVal(aList[i], aList[i + 1])
+                aList[i] = swapList[0]
+                aList[i + 1] = swapList[1]
+    
+    return aList
+
+
 def sortTest(function):
     for i in range(1000):
         a = function(randListGen(10,10))
