@@ -185,10 +185,12 @@ def shellSort(aList, gap):
         return aList
     listDict = {}
     loopCount = len(aList)//gap
+    remainder = len(aList) % gap
     sortedList = []
+    longListList = []
     for i in range(loopCount): #setting up our arrays
         listDict['list' + str(i)] = []
-    for j in range(loopCount): #Adding numbers to our sublists
+    for j in range(gap): #Adding numbers to our sublists
         gapCounter = 0 + j
         while gapCounter <= len(aList) - 1:
             print gapCounter
@@ -196,9 +198,15 @@ def shellSort(aList, gap):
             gapCounter += gap
     for k in listDict: #sorting all lists within the dictionary
         listDict[k] = insertSort(listDict[k])
-    #for m in len(listDict):
-        #sortedList.append(
-    return listDict
+    for o in range(remainder):
+        longListList.append(['list' + str(3 - (o - 1))])
+    for m in range(loopCount): #At index m in all lists listn add to sortedList
+        for n in range(loopCount):
+            sortedList.append(listDict['list' + str(n)][m])
+            if ['list' + str(n)] in longListList:
+                sortedList.append(listDict['list' + str(n)][-1])
+    sortedList = insertSort(sortedList)
+    return sortedList
     
 def sortTest(function):
     for i in range(1000):
@@ -206,7 +214,7 @@ def sortTest(function):
         
 #pdb.set_trace()
 #sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
-#statsInstance = cProfile.run('insertSort([0, 10, 9, 8, 9, 5, 3, 0, 8, 4])')
+statsInstance = cProfile.run('shellSort([0, 10, 9, 8, 9, 5, 3, 0, 8, 4], 3)')
 #stream = open(sortFile, 'w')
 #stats = pstats.Stats(statsInstance, stream = stream)
 #stats = pstats.Stats('C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions.py', stream = stream)
