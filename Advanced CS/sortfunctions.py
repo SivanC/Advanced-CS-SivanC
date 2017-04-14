@@ -181,8 +181,8 @@ def shellSort(aList, gap):
     print aList
     if len(aList) <= 1:    #checking for unsortable and too short lists
         return aList
-    #elif isSorted(aList):
-     #   return aList
+    elif isSorted(aList):
+        return aList
     listDict = {}
     intQuotient = len(aList)//gap
     remainder = len(aList) % gap
@@ -222,27 +222,40 @@ def selectionSort(aList):
     """Repeatedly finds the smallest value in aList and puts it behind the previous smallest value. Returns a list.
     """
     print aList
-    swapIndex = 3
+    if len(aList) <= 1:    #checking for unsortable and too short lists
+        return aList
+    elif isSorted(aList):
+        return aList
+        
+    swapIndex = 0      #setting index of the number to be swapped with the smallest number found
     smallNumIndex = 0
-    pdb.set_trace()
-    while not isSorted(aList):
+    
+    while not isSorted(aList): #Repeat until the list is sorted
+        swapAllow = False    #Added to insure that if no smaller number than the number at aList[swapIndex] is found it will not swap with the index of the last known small number
         smallNum = aList[swapIndex]
-        for i in range(swapIndex, len(aList)):
+        
+        for i in range(swapIndex, len(aList)): #Check whether each number is lower than the pivot at aList[swapIndex], and if it is update smallNum and smallNumIndex
             if aList[i] < smallNum:
                 smallNum = aList[i]
                 smallNumIndex = i
-        
-        swapListA = swapVal(smallNum, aList[swapIndex])
-        aList[smallNumIndex] = swapListA[0]
-        aList[swapIndex] = swapListA[1]
-        if swapIndex < len(aList) - 1:
+                swapAllow = True
+                
+        if swapAllow == True:  #Swapping the values
+            swapListA = swapVal(smallNum, aList[swapIndex])
+            aList[smallNumIndex] = swapListA[0]
+            aList[swapIndex] = swapListA[1]
+            
+        if swapIndex < len(aList) - 1: #Checking that the swap index doesn't go out of bounds
             swapIndex += 1
-        
+        else:
+            break
+
     return aList
     
 def sortTest(function):
     for i in range(1000):
-        function(randListGen(10,10))
+        a = function(randListGen(10,10))
+        print 'output: ' + str(a)
         
 #pdb.set_trace()
 #sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
