@@ -1,7 +1,4 @@
-import pdb          #python debugger, allows to go through a function step by step using pdb.Trace()
-import random       #used in randListGen()
-import cProfile
-import pstats
+import pdb, random, cProfile, pstats          #python debugger, allows to go through a function step by step using pdb.set_trace()
 
 def swapVal(value1, value2):
     """ Swaps the values held in two variables and returns a list with the two swapped values
@@ -175,7 +172,7 @@ def insertSort(aList):
         sortedList = insertSort(aList)
     return sortedList
     
-def shellSort(aList, gap):
+def shellSort(aList, *gap):
     """Splits a list into numLists using increments of gap to select items from aList, and then uses insertion sort to sort the individual lists before combination. Returns the sorted list.
     """
     print aList
@@ -183,6 +180,12 @@ def shellSort(aList, gap):
         return aList
     elif isSorted(aList):
         return aList
+    
+    if gap != ():
+        gap = gap[0]
+    else:
+        gap = 3
+        
     listDict = {}
     intQuotient = len(aList)//gap
     remainder = len(aList) % gap
@@ -271,15 +274,21 @@ def bubbleSort(aList):
     return aList
 
 
-def sortTest(function):
+def sortTest(function):  #See profiletesting.py for comments
+    profile = cProfile.Profile()
+    sortType = 'cumtime'
+    
+    profile.enable()
+    
     for i in range(1000):
-        a = function(randListGen(10,10))
-        print 'output: ' + str(a)
+        function(randListGen(10,10))
         
-#pdb.set_trace()
-#sortFile = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions_Profile.txt'
-#statsInstance = cProfile.run('shellSort([0, 10, 9, 8, 9, 5, 3, 0, 8, 4], 3)')
-#stream = open(sortFile, 'w')
-#stats = pstats.Stats(statsInstance, stream = stream)
-#stats = pstats.Stats('C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced CS\sortfunctions.py', stream = stream)
-#stats.print_stats()
+    profile.disable()
+    
+    outputFile = open('/Users/Sivan/Advanced-CS-SivanC/Advanced CS/sortfunctions_Profile.txt', 'ab')
+    outputFile.write('Results of 1000 executions of ' + str(function) + '\n' * 2)
+    stats = pstats.Stats(profile, stream = outputFile).strip_dirs().sort_stats(sortType).print_stats()
+    
+    outputFile.close()
+    
+    return
