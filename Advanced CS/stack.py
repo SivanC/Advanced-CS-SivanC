@@ -30,10 +30,9 @@ class Queue():
     def dequeue(self, index):
         del(self.items[index])
         
-    def rid(self, element):
-        for i in self.items:
-            if element == self.items[i]:
-                del(self.items[i])
+    def delete(self, element):
+        print self.items
+        print element
 
 def parChecker(aString):
     """Checks if a set of brackets is identical when reversed. Returns True or False
@@ -46,8 +45,8 @@ def parChecker(aString):
         stack.append(aString[i])
         
     for j in stack:
-        tempVal = stack.pop()
-        invertStack.append(tempVal)
+        popped = stack.pop()
+        invertStack.append(popped)
         
     return stack == invertStack
     
@@ -78,12 +77,16 @@ def hotPotato(names, num):
         
     potatoCounter = 0
     
-    for j in range(num):
-        popped = queue.dequeue()
-        queue.enqueue(popped)
-        print names[potatoCounter]
-        potatoCounter += 1
-        if potatoCounter > len(names) - 1:
-            potatoCounter = 0
-        
-    return    
+    while len(names) != 1:
+        for j in range(num):
+            popped = queue.dequeue(0)
+            queue.enqueue(popped)
+            print str(names[potatoCounter]) + ' has the hot potato!'
+            potatoCounter += 1
+            if potatoCounter > len(names) - 1:
+                potatoCounter = 0
+        print 'Time\'s up! ' + str(names[potatoCounter]) + ' is out!'
+        del(names[potatoCounter])
+    
+    print str(names[0]) + ' is the winner!'
+    return names[0]

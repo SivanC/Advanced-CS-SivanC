@@ -25,7 +25,7 @@ def printSim():
             taskDict['task' + str(timestamp)] = printTask(taskCount, timestamp)
             printQueue.enqueue(taskDict['task' + str(timestamp)])
             
-    for i in range(600, 6000, 600):
-        for j in taskDict:
-            if taskDict[j].timestamp <= i:
-                printQueue.rid(j)
+    for j in range(600, 6000, 600):
+        for k in taskDict:
+            if taskDict[k].timestamp <= j:
+                printQueue.delete(taskDict[k])
