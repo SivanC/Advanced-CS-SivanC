@@ -1,34 +1,36 @@
-def sequentialSearch(alist, element):
+def sequentialSearch(aList, element):
     """Performs a sequential search for an item,
     returning true if found and false otherwise
     """
     found = False
-    while found != True:
-        for i in list:
-            if i == element:
-                found = True
-            elif i != element:
-                found = False
+    for i in aList:
+        if i == element:
+            found = True
                 
     return found
     
-def binarySearch(alist, num):
+def binarySearch(aList, element):
+    if len(aList) == 1:
+        return element == aList[0]
+    elif len(aList) == 0:
+        return
+        
+    midNum = len(aList)//2
     found = False
-    newListLength = len(alist)
-    print 'running'
-    while found == False:
-        if alist[newListLength/2] == num:
-            found = True
-            print 'found 9'
-        else:
-            newListlength = newListLength/2
-            print 'didnt find 9'
-        if newListLength <= 1:
-            found = True
-            print 'list too small'
-    return found
     
-def createList(listLength):
-    createdList = []
-    for i in range(listLength):
-        createdList += i
+    if aList[midNum] == element:
+        found = True
+        return found
+        
+    else:
+        bList = aList[:midNum]
+        cList = aList[midNum:]
+        b = binarySearch(bList, element)
+        c = binarySearch(cList, element)
+ 
+    if b == True:
+        found = b
+    if c == True:
+        found = c
+           
+    return found

@@ -1,3 +1,5 @@
+import random
+
 class Stack:
     def __init__(self):
         self.items = []
@@ -25,8 +27,13 @@ class Queue():
     def enqueue(self, item):
         self.items.append(item)
         
-    def dequeue(self):
-        del(self.items[0])
+    def dequeue(self, index):
+        del(self.items[index])
+        
+    def rid(self, element):
+        for i in self.items:
+            if element == self.items[i]:
+                del(self.items[i])
 
 def parChecker(aString):
     """Checks if a set of brackets is identical when reversed. Returns True or False
@@ -79,4 +86,4 @@ def hotPotato(names, num):
         if potatoCounter > len(names) - 1:
             potatoCounter = 0
         
-    return 
+    return    
