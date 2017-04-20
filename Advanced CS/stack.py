@@ -26,9 +26,9 @@ class Queue():
         
     def __repr__(self):
         return str(self.items)
-    
-    def iterable(self):
-        return self.items
+        
+    def __getitem__(self, index):
+        return self.items[index]
         
     def enqueue(self, item):
         self.items.append(item)
