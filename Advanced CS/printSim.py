@@ -1,5 +1,6 @@
 import stack
 import random
+import pdb
 
 reload(stack)
 
@@ -9,12 +10,13 @@ class printTask():
         self.taskCount = taskCount
         self.timestamp = timestamp
         self.pages = random.randint(1,20)
+        self.timeWaited = 0
         
     def __repr__(self):
         return 'Task #' + str(self.taskCount) + ' at second ' + str(self.timestamp) + ' with ' + str(self.pages) + ' pages.'
         
     def getAsList(self):
-        return [self.taskCount, self.timestamp, self.pages]
+        return [self.taskCount, self.timestamp, self.pages, self.timeWaited]
         
 def printSim():
     
@@ -29,13 +31,23 @@ def printSim():
             timestamp = i
             taskDict['task' + str(timestamp)] = printTask(taskCount, timestamp) #Add this task to the dictionary with its timestamp
             printQueue.enqueue(taskDict['task' + str(timestamp)].getAsList())
-            
+    
+    pdb.set_trace()        
     for j in range(60, 5460, 60):
-        minute = j/60
         pageCount = 0
-        for task in printQueue:
-            if pageCount + task[2] <= 10:
-                pageCount += task[2]
-                printQueue.deleteIndex[taskCount[0] - 1]
-            elif task[2] >= 10:
-                task[2] -= 10
+        for task in printQueue.iterable():
+            if task[1] <= j:
+                if pageCount + task[2] <= 10:
+                    pageCount += task[2]
+                    print task[0]
+                    print printQueue
+                    printQueue.deleteIndex(task[0] - 1)
+                elif task[2] >= 10:
+                    task[2] -= 10
+                    task[3] += 60
+                    break
+                elif task[2] + pageCount > 10:
+                    task[2] = (pageCount + task[2]) - 10
+                    task[3] += 60
+                    break
+    return printQueue
