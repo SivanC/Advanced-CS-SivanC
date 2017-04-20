@@ -24,15 +24,22 @@ class Queue():
     def __init__(self):
         self.items = []
         
+    def __repr__(self):
+        return str(self.items)
+        
     def enqueue(self, item):
         self.items.append(item)
         
     def dequeue(self, index):
         del(self.items[index])
         
-    def delete(self, element):
-        print self.items
-        print element
+    def deleteElement(self, element):
+        for i in range(len(self.items)):
+            if element == self.items[i]:
+                del(self.items[i])
+    
+    def deleteIndex(self, index):
+        del(self.items[index])
 
 def parChecker(aString):
     """Checks if a set of brackets is identical when reversed. Returns True or False
