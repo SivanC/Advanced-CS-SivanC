@@ -1,4 +1,4 @@
-import random
+import pdb
 
 class Stack:
     def __init__(self):
@@ -100,3 +100,81 @@ def hotPotato(names, num):
     
     print str(names[0]) + ' is the winner!'
     return names[0]
+    
+def isPalindrome(word):
+    
+    if type(word) != str:
+        return
+    if len(word) == 1 or len(word) == 0:
+        return True
+        
+    if word[0] == word[-1]:
+        word = word[1:len(word) - 1]
+    
+    isPal = isPalindrome(word)
+    
+    return isPal
+    
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+
+    def setData(self,newdata):
+        self.data = newdata
+
+    def setNext(self,newnext):
+        self.next = newnext
+        
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def isEmpty(self):
+        return self.head == None
+        
+    def addItem(self, item):
+        item = Node(item)
+        if self.isEmpty():
+            self.head = item
+        elif not self.isEmpty():
+            item.setNext(self.head)
+            self.head = item
+    
+    def size(self):
+        currentNode = self.head
+        nodeCount = 1
+        while currentNode.next != None:
+            currentNode = currentNode.next
+            nodeCount += 1
+            
+        return nodeCount
+        
+    def search(self, value, *p):
+        currentNode = self.head
+        found = False
+
+        while found == False and currentNode != None:
+            previousNode = currentNode
+            if currentNode.data == value:
+                found = True
+            if not found:
+                currentNode = currentNode.next
+        
+        if p == ():        
+            return currentNode
+        else:
+            return [currentNode, previousNode]
+        
+    def remove(self, value):
+        delNode = self.search(value, 'y')[0]
+        prevNode = self.search(value, 'y')[1]
+        
+        prevNode.next = delNode.next
+        
+        
+        
+aList = LinkedList()
+aList.addItem(31)
+aList.addItem(52)
+aList.addItem(103)

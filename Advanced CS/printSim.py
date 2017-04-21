@@ -1,8 +1,5 @@
 import stack
 import random
-import pdb
-
-reload(stack)
 
 class printTask():
     
