@@ -129,6 +129,15 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
+        
+    def __repr__(self):
+        returnList = []
+        currentNode = self.head
+        for i in range(self.size()):
+            returnList.append(currentNode.data)
+            currentNode = currentNode.next
+            
+        return str(returnList)
     
     def isEmpty(self):
         return self.head == None
@@ -152,13 +161,14 @@ class LinkedList:
         
     def search(self, value, *p):
         currentNode = self.head
+        previousNode = None
         found = False
-
+        pdb.set_trace()
         while found == False and currentNode != None:
-            previousNode = currentNode
             if currentNode.data == value:
                 found = True
             if not found:
+                previousNode = currentNode
                 currentNode = currentNode.next
         
         if p == ():        
@@ -171,6 +181,7 @@ class LinkedList:
         prevNode = self.search(value, 'y')[1]
         
         prevNode.next = delNode.next
+        delNode.next = None
         
         
         
