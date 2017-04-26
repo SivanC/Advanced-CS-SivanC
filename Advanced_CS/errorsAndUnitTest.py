@@ -1,14 +1,9 @@
 import unittest
-import random
 
 class numTests(unittest.TestCase):
     
-    def set_up(self, value):
+    def __init__(self, value):
         self.value = value
-        
-    def tear_down(self):
-        self.value.dispose()
-        self.value = None
         
     def test_isNum(self):
         try:
@@ -27,7 +22,10 @@ class numTests(unittest.TestCase):
         suite = unittest.TestSuite
         suite.addTest(numTests('test_isNum', 4))
         suite.addTest(numTests('test_isEven', 4))
+        
+if __name__ == '__main__':
+    unittest.main()
 
-test = numTests()
-suite = numTests.suite(test)
-unittest.TextTestRunner(verbosity=2).run(suite)
+#test = numTests()
+#suite = numTests.suite(test)
+#unittest.TextTestRunner(verbosity=2).run(suite)
