@@ -14,7 +14,7 @@ def getData(line):
     if '_' in data:
         temp = data[0].split("_")
         data[0] = temp[0]
-        print data
+        data[0].lower()
         data.insert(1, temp[1])
         del(data[1])
     if '\n' in data[3]:
@@ -31,15 +31,17 @@ def nGramsParse():
     #pdb.set_trace()
     while not validFile:
         fileName = str(raw_input('Please enter the path of the file you would like to parse: \n'))
-        
+        if fileName.lower() == 'quit':
+            return
         try:    
             open(fileName, 'r')
             validFile = True
         except IOError or AttributeError:
             print 'That is not a valid file! Please try again'
         
-    word = str(raw_input('Please enter the word you would like to display \n'))
-    
+    word = str(raw_input('Please enter the word you would like to display \n')).lower()
+    print 'Word to look for: ' + word
+
     wordFound = False
     lineCount = 0
     while not wordFound: 
@@ -51,7 +53,6 @@ def nGramsParse():
         print 'Current word: ' + str(wordData)
         if word == wordData[0]:
             wordFound = True
-        lc.clearcache()
             
     if not wordFound:
         print 'That word is not in our data!'
@@ -59,13 +60,13 @@ def nGramsParse():
     
     print 'Word found! Calculating usage...'
     currentYear = wordData[1]
+    currentWord = wordData[0]
     
-    while wordData[1] <= currentYear:
+    while wordData[0] == currentWord:
         wordData = getData(lc.getline(fileName, lineCount))
         wordFreq.append(wordData[2])
         yearAxis.append(wordData[1])
         lineCount += 1
-        lc.clearcache()
     
     plt.xticks(int(currentYear) - 1, currentYear + lineCount)
     plt.plot(wordFreq, yearAxis)
