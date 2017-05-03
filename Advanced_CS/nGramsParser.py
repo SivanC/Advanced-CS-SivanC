@@ -11,16 +11,18 @@ import pdb
 
 def getData(line):
     data = line.split("\t")
-    if '_' in data:
+    if '_' in data[0]:
         temp = data[0].split("_")
         data[0] = temp[0]
+        print data
         data[0].lower()
         data.insert(1, temp[1])
         del(data[1])
-    if '\n' in data[3]:
+    try:
         temp = data[3].split("\n")
         data[3] = temp[0]
-    
+    except IndexError:
+        pass
     return data
 
 def nGramsParse():
@@ -41,10 +43,10 @@ def nGramsParse():
         
     word = str(raw_input('Please enter the word you would like to display \n')).lower()
     print 'Word to look for: ' + word
-
+    
     wordFound = False
     lineCount = 0
-    while not wordFound: 
+    while lineCount <= 5: 
         print 'Searching...'
         lineCount += 1
         wordData = getData(lc.getline(fileName, lineCount))
@@ -53,7 +55,8 @@ def nGramsParse():
         print 'Current word: ' + str(wordData)
         if word == wordData[0]:
             wordFound = True
-            
+    
+    return        
     if not wordFound:
         print 'That word is not in our data!'
         return
