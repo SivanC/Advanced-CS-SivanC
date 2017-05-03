@@ -14,8 +14,7 @@ def getData(line):
     if '_' in data[0]:
         temp = data[0].split("_")
         data[0] = temp[0]
-        print data
-        data[0].lower()
+        data[0] = data[0].lower()
         data.insert(1, temp[1])
         del(data[1])
     try:
@@ -23,6 +22,7 @@ def getData(line):
         data[3] = temp[0]
     except IndexError:
         pass
+        
     return data
 
 def nGramsParse():
@@ -42,11 +42,10 @@ def nGramsParse():
             print 'That is not a valid file! Please try again'
         
     word = str(raw_input('Please enter the word you would like to display \n')).lower()
-    print 'Word to look for: ' + word
     
     wordFound = False
     lineCount = 0
-    while lineCount <= 5: 
+    while not wordFound: 
         print 'Searching...'
         lineCount += 1
         wordData = getData(lc.getline(fileName, lineCount))
@@ -55,22 +54,27 @@ def nGramsParse():
         print 'Current word: ' + str(wordData)
         if word == wordData[0]:
             wordFound = True
-    
-    return        
+       
     if not wordFound:
         print 'That word is not in our data!'
         return
     
-    print 'Word found! Calculating usage...'
-    currentYear = wordData[1]
+    print 'Word found! Displaying usage...'
     currentWord = wordData[0]
+    dataDict = {}
     
     while wordData[0] == currentWord:
         wordData = getData(lc.getline(fileName, lineCount))
         wordFreq.append(wordData[2])
         yearAxis.append(wordData[1])
+        dataDict[str(wordData[1])] = wordData[2]
         lineCount += 1
     
-    plt.xticks(int(currentYear) - 1, currentYear + lineCount)
-    plt.plot(wordFreq, yearAxis)
+    if wordFreq == [] or yearAxis == []:
+        print 'That word is not in our data!'
+        return
+    
+    plt.clf()    
+    plt.bar(yearAxis, wordFreq)
     plt.show(block=True)
+    print dataDict
