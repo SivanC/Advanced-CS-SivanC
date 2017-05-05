@@ -7,7 +7,7 @@
 
 import linecache as lc
 import matplotlib.pyplot as plt
-import pdb
+import numpy as np
 
 def getData(line):
     data = line.split("\t")
@@ -26,7 +26,7 @@ def getData(line):
     return data
 
 def nGramsParse():
-    wordFreq = []
+    wordFreqAxis = []
     yearAxis = []
     
     validFile = False
@@ -65,22 +65,24 @@ def nGramsParse():
     
     while wordData[0] == currentWord:
         wordData = getData(lc.getline(fileName, lineCount))
-        wordFreq.append(wordData[2])
+        wordFreqAxis.append(wordData[2])
         yearAxis.append(wordData[1])
         dataDict[str(wordData[1])] = wordData[2]
         lineCount += 1
     
-    if wordFreq == [] or yearAxis == []:
+    if wordFreqAxis == [] or yearAxis == []:
         print 'That word is not in our data!'
         return
     
-    for i in yearAxis:
-        int(i)
-    for j in wordFreq:
-        int(i)
-    
-    plt.clf()    
-    plt.bar(yearAxis, wordFreq)
-    plt.ylabel('Frequency', fontsize=14)
-    plt.xlabel('Year', fontsize=14)
-    plt.show(block=True)
+    for i in range(len(yearAxis)):
+        yearAxis[i] = int(yearAxis[i])
+    for j in range(len(wordFreqAxis)):
+        wordFreqAxis[j] = int(wordFreqAxis[j])
+    print wordFreqAxis
+    print yearAxis
+    xCoords = np.arange(len(wordFreqAxis))
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.bar(xCoords, wordFreqAxis,1.0, align='center')
+    ax.set_xticks(xCoords)
+    ax.set_xticklabels(yearAxis)
