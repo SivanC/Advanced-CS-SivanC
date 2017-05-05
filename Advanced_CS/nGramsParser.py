@@ -74,7 +74,13 @@ def nGramsParse():
         print 'That word is not in our data!'
         return
     
+    for i in yearAxis:
+        int(i)
+    for j in wordFreq:
+        int(i)
+    
     plt.clf()    
     plt.bar(yearAxis, wordFreq)
+    plt.ylabel('Frequency', fontsize=14)
+    plt.xlabel('Year', fontsize=14)
     plt.show(block=True)
-    print dataDict
