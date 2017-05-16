@@ -8,6 +8,7 @@
 import linecache as lc
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.ticker as tk
 
 def getData(line):
     data = line.split("\t")
@@ -78,11 +79,12 @@ def nGramsParse():
         yearAxis[i] = int(yearAxis[i])
     for j in range(len(wordFreqAxis)):
         wordFreqAxis[j] = int(wordFreqAxis[j])
-    print wordFreqAxis
-    print yearAxis
+
     xCoords = np.arange(len(wordFreqAxis))
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.bar(xCoords, wordFreqAxis,1.0, align='center')
+    ax.bar(xCoords, wordFreqAxis,1.0, align='center', fontsize=1)
     ax.set_xticks(xCoords)
     ax.set_xticklabels(yearAxis)
+    for label in ax.get_xticklabels:
+        label.set_fontsize(5)
