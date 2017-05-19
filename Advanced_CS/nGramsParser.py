@@ -8,7 +8,8 @@
 import linecache as lc
 import matplotlib.pyplot as plt #Imports for making the final graph
 import numpy as np
-import matplotlib.ticker as tk
+import sys
+import pdb
 
 def getData(line):
     data = line.split("\t") #Split the data into word, year, number of times used, and across how many books in nGrams database
@@ -26,69 +27,77 @@ def getData(line):
         
     return data
 
-def nGramsParse():
-    wordFreqAxis = []
-    yearAxis = []
-    
-    validFile = False
-    #pdb.set_trace()
-    while not validFile:
-        fileName = str(raw_input('Please enter the path of the file you would like to parse: \n')) #Receiving the file path and opening the file
-        if fileName.lower() == 'quit': #quit comand to exit the program
-            return
-        try:    
-            open(fileName, 'r')
-            validFile = True
-        except IOError or AttributeError:
-            print 'That is not a valid file! Please try again'
-        
-    word = str(raw_input('Please enter the word you would like to display \n')).lower() #Receiving the word to search for
-    
-    wordFound = False
-    lineCount = 0
-    while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
-        print 'Searching...'
-        lineCount += 1
-        wordData = getData(lc.getline(fileName, lineCount))
-        if wordData[0] == ' ':
-            break
-        print 'Current word: ' + str(wordData)
-        if word == wordData[0]:
-            wordFound = True
-       
-    if not wordFound: #If the word isn't found end the function
-        print 'That word is not in our data!'
-        return
-    
-    print 'Word found! Displaying usage...'
-    currentWord = wordData[0]
-    dataDict = {}
-    
-    while wordData[0] == currentWord: #Creating a data dictionary for text analysis and the two lists for graphing
-        wordData = getData(lc.getline(fileName, lineCount))
-        wordFreqAxis.append(wordData[2])
-        yearAxis.append(wordData[1])
-        dataDict[str(wordData[1])] = wordData[2]
-        lineCount += 1
-        wordData = getData(lc.getline(fileName, lineCount))
-    
-    if wordFreqAxis == [] or yearAxis == []: #Double checking that we have found the word
-        print 'That word is not in our data!'
-        return
-    
-    for i in range(len(yearAxis)):
-        yearAxis[i] = int(yearAxis[i])
-        wordFreqAxis[i] = int(wordFreqAxis[i])
+wordFreqAxis = []
+yearAxis = []
+quit = False
 
-    word = getData(lc.getline(fileName, lineCount - 1))[0] #Formatting
-    word = word.capitalize()
+print '\n Thank you for using the Sivan Cooperman nGrams Parser! All data has been downloaded from Google\'s nGram Database. \n'
+validFile = False
+while not validFile:
+    fileName = str(raw_input('Please enter the path of the file you would like to parse (or \'quit\' to exit): \n')) #Receiving the file path and opening the file
+    if fileName == 'quit': #quit comand to exit the program
+        quit = True
+    try:    
+        open(fileName, 'r')
+        validFile = True
+    except IOError or AttributeError:
+        print 'That is not a valid file! Please try again'
     
-    xCoords = np.arange(len(wordFreqAxis)) #Graphing of the two lists as a bar graph of frequency over time
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.set_xlabel('Time (Years)')
-    ax.set_ylabel('Frequency (# Times Used)')
-    ax.set_title('Frequency of use of ' + word)
-    ax.bar(xCoords, wordFreqAxis,width=1.0, align='center')
-    #ax.set_xticks(xCoords)
-    ax.set_xticklabels(yearAxis, fontsize = 8)
+word = str(raw_input('Please enter the word you would like to display (or \'quit\' to exit): \n')).lower() #Receiving the word to search for
+
+if word == 'quit':
+    quit = True
+
+if quit:
+    sys.exit()
+       
+wordFound = False
+lineCount = 0
+while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
+    print 'Searching...'
+    lineCount += 1
+    wordData = getData(lc.getline(fileName, lineCount))
+    wordData.append(lineCount)
+    if wordData[0] == '':
+        break
+    print 'Current word: ' + str(wordData)
+    if word == wordData[0]:
+        wordFound = True
+    
+if not wordFound: #If the word isn't found end the function
+    print 'That word is not in our data!'
+    sys.exit()
+
+print 'Word found! Displaying usage...'
+currentWord = wordData[0]
+dataDict = {}
+
+while wordData[0] == currentWord: #Creating a data dictionary for text analysis and the two lists for graphing
+    wordData = getData(lc.getline(fileName, lineCount))
+    wordFreqAxis.append(wordData[2])
+    yearAxis.append(wordData[1])
+    dataDict[str(wordData[1])] = wordData[2]
+    lineCount += 1
+    wordData = getData(lc.getline(fileName, lineCount))
+
+if wordFreqAxis == [] or yearAxis == []: #Double checking that we have found the word
+    print 'That word is not in our data!'
+    sys.exit()
+
+for i in range(len(yearAxis)):
+    yearAxis[i] = int(yearAxis[i])
+    wordFreqAxis[i] = int(wordFreqAxis[i])
+
+word = getData(lc.getline(fileName, lineCount - 1))[0] #Formatting
+word = word.capitalize()
+
+xCoords = np.arange(len(wordFreqAxis)) #Graphing of the two lists as a bar graph of frequency over time
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.set_xlabel('Time (Years)')
+ax.set_ylabel('Frequency (# Times Used)')
+ax.set_title('Frequency of use of ' + word)
+ax.bar(xCoords, wordFreqAxis,width=1.0, align='center')
+#ax.set_xticks(xCoords)
+ax.set_xticklabels(yearAxis, fontsize = 8)
+plt.show()
