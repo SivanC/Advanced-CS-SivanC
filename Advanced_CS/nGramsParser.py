@@ -5,11 +5,21 @@
 # Desc: Parses Google nGrams Data to display usage statistics
 # Usage: Requires a file to parse path and the word you would like to find as raw input after instantiating the function
 
-import linecache as lc
-import matplotlib.pyplot as plt #Imports for making the final graph
+import linecache as lc #Memory efficient line reading
+
+import matplotlib.pyplot as plt #Graphing Utility
 import numpy as np
-import sys
-import pdb
+
+import sys #Returning outside a function
+
+import cProfile #Profiler
+import pStats
+
+def initProfile():
+    profile = cProfile.Profile()
+    sortMethod = 'cumtime'
+    outputPath = '/Users/Sivan/Documents/Github/Advanced-CS-SivanC/Advanced_CS/nGramsParserProfileOutput.txt'
+    output = open(outputPath, 'w')
 
 def getData(line):
     data = line.split("\t") #Split the data into word, year, number of times used, and across how many books in nGrams database
@@ -53,6 +63,7 @@ if quit:
        
 wordFound = False
 lineCount = 0
+profile.enable() #Begin tracking performance
 while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
     print 'Searching...'
     lineCount += 1
@@ -101,3 +112,4 @@ ax.bar(xCoords, wordFreqAxis,width=1.0, align='center')
 #ax.set_xticks(xCoords)
 ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
+profile.disable() #Stop tracking performance
