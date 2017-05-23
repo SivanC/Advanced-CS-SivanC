@@ -63,6 +63,7 @@ if quit:
        
 wordFound = False
 lineCount = 0
+initProfile()
 profile.enable() #Begin tracking performance
 while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
     print 'Searching...'
