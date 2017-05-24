@@ -13,13 +13,13 @@ import numpy as np
 import sys #Returning outside a function
 
 import cProfile #Profiler
-import pStats
+import pstats
 
-def initProfile():
-    profile = cProfile.Profile()
-    sortMethod = 'cumtime'
-    outputPath = '/Users/Sivan/Documents/Github/Advanced-CS-SivanC/Advanced_CS/nGramsParserProfileOutput.txt'
-    output = open(outputPath, 'w')
+profile = cProfile.Profile()
+sortMethod = 'cumtime'
+outputPath = '/Users/Sivan/Documents/Github/Advanced-CS-SivanC/Advanced_CS/nGramsParserProfileOutput.txt'
+output = open(outputPath, 'w')
+profile.enable() #Begin tracking
 
 def getData(line):
     data = line.split("\t") #Split the data into word, year, number of times used, and across how many books in nGrams database
@@ -63,8 +63,9 @@ if quit:
        
 wordFound = False
 lineCount = 0
+
 initProfile()
-profile.enable() #Begin tracking performance
+
 while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
     print 'Searching...'
     lineCount += 1
