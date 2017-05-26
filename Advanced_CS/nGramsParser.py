@@ -3,8 +3,7 @@
 # Name: Sivan Cooperman
 # Date: 5.1.2017
 # Desc: Parses Google nGrams Data to display usage statistics
-# Usage: Requires a file to parse path and the word you would like to find as raw input after instantiating the function
-
+# Usage: Requires a file to parse path and the word you would like to find as raw input after instantiating the func
 import linecache as lc #Memory efficient line reading
 
 import matplotlib.pyplot as plt #Graphing Utility
@@ -45,7 +44,11 @@ print '\n Thank you for using the Sivan Cooperman nGrams Parser! All data has be
 validFile = False
 while not validFile:
     fileName = str(raw_input('Please enter the path of the file you would like to parse (or \'quit\' to exit): \n')) #Receiving the file path and opening the file
-    if fileName == 'quit': #quit comand to exit the program
+    
+    if fileName == 'default':
+        fileName = 'C:\Users\Sivan\Documents\GitHub\Advanced-CS-SivanC\Advanced_CS\googleagramsdatabaseaa.txt'
+        
+    elif fileName == 'quit': #quit comand to exit the program
         quit = True
     try:    
         open(fileName, 'r')
@@ -63,8 +66,6 @@ if quit:
        
 wordFound = False
 lineCount = 0
-
-initProfile()
 
 while not wordFound: #Continue to analyze lines using linecache until the function reaches a blank line or finds the word detailed by the raw input
     print 'Searching...'
@@ -115,3 +116,4 @@ ax.bar(xCoords, wordFreqAxis,width=1.0, align='center')
 ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
 profile.disable() #Stop tracking performance
+stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
