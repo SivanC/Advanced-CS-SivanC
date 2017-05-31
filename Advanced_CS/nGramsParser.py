@@ -23,17 +23,13 @@ profile.enable() #Begin tracking
 def getData(line):
     data = line.split("\t") #Split the data into word, year, number of times used, and across how many books in nGrams database
     if '_' in data[0]:
-        temp = data[0].split("_")
-        data[0] = temp[0]
-        data[0] = data[0].lower() #Removing any part of speech indicators
-        data.insert(1, temp[1])
-        del(data[1])
+        data[0] = data[0].replace(data[0], data[0].split('_')[0])
     try:
         temp = data[3].split("\n") #Remove the newline at the end of a line unless it is the last line
         data[3] = temp[0]
     except IndexError:
         pass
-        
+    data[0] = data[0].lower()    
     return data
 
 wordFreqAxis = []
@@ -72,7 +68,7 @@ while not wordFound: #Continue to analyze lines using linecache until the functi
     lineCount += 1
     wordData = getData(lc.getline(fileName, lineCount))
     wordData.append(lineCount)
-    if wordData[0] == '':
+    if wordData[0] == '' or lineCount > 11450:
         break
     print 'Current word: ' + str(wordData)
     if word == wordData[0]:
@@ -117,6 +113,6 @@ ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
 profile.disable() #Stop tracking performance
 output.write('\n')
-output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount))
+output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount)) + '/~504,000'
 output.write('\n')
 stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
