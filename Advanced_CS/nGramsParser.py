@@ -117,6 +117,6 @@ ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
 profile.disable() #Stop tracking performance
 output.write('\n')
-output.write('Stats for the word ' + word + ' at line ' + str(initLineCount))
+output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount))
 output.write('\n')
 stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
