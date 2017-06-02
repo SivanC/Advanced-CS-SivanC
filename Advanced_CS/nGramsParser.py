@@ -68,14 +68,16 @@ while not wordFound: #Continue to analyze lines using linecache until the functi
     lineCount += 1
     wordData = getData(lc.getline(fileName, lineCount))
     wordData.append(lineCount)
-    if wordData[0] == '' or lineCount > 11450:
+    if wordData[0] == '':
         break
     print 'Current word: ' + str(wordData)
     if word == wordData[0]:
         wordFound = True
-initLineCount = lineCount  
-if not wordFound: #If the word isn't found end the function
-    print 'That word is not in our data!'
+        
+initLineCount = lineCount 
+ 
+if not wordFound: #If the word isn't found end the script
+    print 'The word' + word + ' is not in our data!'
     sys.exit()
 
 print 'Word found! Displaying usage...'
@@ -113,6 +115,9 @@ ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
 profile.disable() #Stop tracking performance
 output.write('\n')
-output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount)) + '/~504,000'
+print word
+print initLineCount
+output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount))
 output.write('\n')
 stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
+print 'Writing stats to file...'
