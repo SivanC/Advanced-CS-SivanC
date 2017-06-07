@@ -14,10 +14,11 @@ import sys #Returning outside a function
 import cProfile #Profiler
 import pstats
 
+filename = ''
 profile = cProfile.Profile()
 sortMethod = 'cumtime'
 outputPath = '/Users/Sivan/Documents/Github/Advanced-CS-SivanC/Advanced_CS/nGramsParserProfileOutput.txt'
-output = open(outputPath, 'a')
+    
 profile.enable() #Begin tracking
 
 def getData(line):
@@ -47,6 +48,10 @@ while not validFile:
     elif fileName == 'quit': #quit comand to exit the program
         quit = True
     try:    
+        with open(fileName, 'r+') as openFile:
+            if not openFile.read(1):
+                print 'This file is empty!'
+                sys.exit()
         open(fileName, 'r')
         validFile = True
     except IOError or AttributeError:
@@ -92,8 +97,10 @@ while wordData[0] == currentWord: #Creating a data dictionary for text analysis 
     lineCount += 1
     wordData = getData(lc.getline(fileName, lineCount))
 
+profile.disable() #Stop tracking performance
+
 if wordFreqAxis == [] or yearAxis == []: #Double checking that we have found the word
-    print 'That word is not in our data!'
+    print 'Error: One or both lists of graphing coordinates are empty!'
     sys.exit()
 
 for i in range(len(yearAxis)):
@@ -113,11 +120,10 @@ ax.bar(xCoords, wordFreqAxis,width=1.0, align='center')
 #ax.set_xticks(xCoords)
 ax.set_xticklabels(yearAxis, fontsize = 8)
 plt.show()
-profile.disable() #Stop tracking performance
-output.write('\n')
-print word
-print initLineCount
-output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount))
-output.write('\n')
-stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
+
+with open(outputPath, 'a') as output:
+    output.write('\n')
+    output.write('\t \t Stats for the word ' + word + ' at line ' + str(initLineCount))
+    output.write('\n')
+    stats = pstats.Stats(profile, stream=output).strip_dirs().sort_stats(sortMethod).print_stats()
 print 'Writing stats to file...'
