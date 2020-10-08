@@ -1,3 +1,1 @@
-"# Advanced-CS-SivanC"
-
-Sivan Cooperman's Computer Science Repository
+Repository containing homework and projects from a high school Advanced CS course.
